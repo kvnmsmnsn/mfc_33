@@ -1,0 +1,50 @@
+** sch_path: /home/ttuser/Mfcs/mfc_33/xschem/tb_mfc_33.sch
+**.subckt tb_mfc_33 gate gate
+*.ipin gate
+*.ipin gate
+Vmeas gate net1 0
+.save i(vmeas)
+R1 sbd GND 10 m=1
+x1 net1 sbd mfc_33
+Vmeas_px gate net2 0
+.save i(vmeas_px)
+R2 sbd_parax GND 10 m=1
+x2 net2 sbd_parax mfc_33_parax
+**** begin user architecture code
+
+** opencircuitdesign pdks install
+.lib /home/ttuser/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+
+
+
+
+* .lib /home/ttuser/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+vG gate 0 SIN ( 0V 1.8V 1GHz)
+.control
+save all
+tran 10p 10n
+write tb_mfc_33.raw
+.endc
+
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  mfc_33.sym # of pins=2
+** sym_path: /home/ttuser/Mfcs/mfc_33/xschem/mfc_33.sym
+** sch_path: /home/ttuser/Mfcs/mfc_33/xschem/mfc_33.sch
+.subckt mfc_33 gate sbd
+*.ipin gate
+*.opin sbd
+XM2 sbd gate sbd sbd sky130_fd_pr__nfet_01v8 L=1.2 W=3.36 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  mfc_33_parax.sym # of pins=2
+** sym_path: /home/ttuser/Mfcs/mfc_33/xschem/mfc_33.sym
+.include /home/ttuser/Mfcs/mfc_33/mag/mfc_33.sim.spice
+.GLOBAL GND
+.end
